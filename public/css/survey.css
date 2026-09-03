@@ -1,0 +1,508 @@
+/* ==========================================================================
+   VNET — Survei Kepuasan Pelanggan
+   Design language: fiber-signal motif, deep signal-blue + amber accent,
+   sharp/minimal corners, Space Grotesk + IBM Plex Sans + IBM Plex Mono.
+   ========================================================================== */
+
+:root {
+  --ink: #10192b;
+  --ink-soft: #4b5670;
+  --ink-faint: #8792a6;
+
+  --bg: #f4f5f8;
+  --surface: #ffffff;
+
+  --border: #e1e4ea;
+  --border-strong: #c7ccd8;
+
+  --brand: #1c3faa;
+  --brand-ink: #12297a;
+  --brand-tint: #eaf0ff;
+
+  --accent: #e8a33d;
+  --accent-tint: #fbebd1;
+
+  --danger: #b8452f;
+  --danger-tint: #fbeae6;
+
+  --radius-sm: 3px;
+  --radius-md: 6px;
+
+  --font-display: "Space Grotesk", "IBM Plex Sans", sans-serif;
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --shadow-card: 0 1px 2px rgba(16, 25, 43, 0.04), 0 8px 24px rgba(16, 25, 43, 0.04);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Progress bar — one deliberate motion cue, fills like a signal charging */
+/* ---------------------------------------------------------------------- */
+
+.progress-rail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--border);
+  z-index: 50;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 120ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-fill {
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Shell / layout                                                          */
+/* ---------------------------------------------------------------------- */
+
+.shell {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 48px 20px 96px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Header                                                                  */
+/* ---------------------------------------------------------------------- */
+
+.brandmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--brand);
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.brandmark svg {
+  flex-shrink: 0;
+}
+
+.page-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 5vw, 32px);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+
+.page-header p {
+  color: var(--ink-soft);
+  font-size: 15.5px;
+  max-width: 52ch;
+  margin: 0 0 6px;
+}
+
+.page-header .meta {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+/* Fiber pulse divider — the one animated moment on the page */
+.pulse-divider {
+  position: relative;
+  height: 2px;
+  background: var(--border);
+  margin: 28px 0 40px;
+  overflow: visible;
+}
+
+.pulse-divider .node {
+  position: absolute;
+  top: 50%;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateY(-50%);
+  animation: travel 3.2s ease-in-out infinite;
+}
+
+@keyframes travel {
+  0% { left: -1%; opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { left: 99%; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-divider .node {
+    animation: none;
+    left: 0;
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Sections                                                                 */
+/* ---------------------------------------------------------------------- */
+
+.section {
+  margin-bottom: 40px;
+}
+
+.section-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.section-badge {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+}
+
+.section-head h2 {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+  margin: 2px 0 4px;
+}
+
+.section-head p {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Question groups                                                         */
+/* ---------------------------------------------------------------------- */
+
+.question {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  transition: border-color 120ms ease;
+}
+
+.question.has-error {
+  border-color: var(--danger);
+  background: var(--danger-tint);
+}
+
+.question legend,
+.question .q-label {
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--ink);
+  margin: 0 0 12px;
+  padding: 0;
+  display: block;
+}
+
+.q-error {
+  display: block;
+  color: var(--danger);
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+/* Pill-style choice buttons, built on native radios for accessibility */
+.pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill-group input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.pill-group label {
+  cursor: pointer;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+  user-select: none;
+}
+
+.pill-group label:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: var(--brand-tint);
+}
+
+.pill-group input[type="radio"]:checked + label {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+
+.pill-group input[type="radio"]:focus-visible + label {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Text inputs / textarea                                                  */
+/* ---------------------------------------------------------------------- */
+
+.field {
+  margin-bottom: 16px;
+}
+
+.field label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.field .hint {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+.field input[type="text"],
+.field input[type="tel"],
+.field textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.field textarea {
+  min-height: 110px;
+  resize: vertical;
+  font-family: var(--font-body);
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-tint);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Star rating (Section C)                                                  */
+/* ---------------------------------------------------------------------- */
+
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.star-rating input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.star-rating label {
+  cursor: pointer;
+  color: var(--border-strong);
+  transition: color 120ms ease, transform 120ms ease;
+}
+
+.star-rating label svg {
+  width: 34px;
+  height: 34px;
+  display: block;
+}
+
+.star-rating input[type="radio"]:focus-visible + label {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input[type="radio"]:checked ~ label {
+  color: var(--accent);
+}
+
+.star-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.star-rating-caption {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Submit                                                                   */
+/* ---------------------------------------------------------------------- */
+
+.submit-row {
+  margin-top: 32px;
+}
+
+button.submit {
+  width: 100%;
+  background: var(--brand);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 15.5px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: background 120ms ease, transform 80ms ease;
+}
+
+button.submit:hover {
+  background: var(--brand-ink);
+}
+
+button.submit:active {
+  transform: translateY(1px);
+}
+
+.submit-note {
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin-top: 12px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Global error summary                                                    */
+/* ---------------------------------------------------------------------- */
+
+.error-summary {
+  background: var(--danger-tint);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin-bottom: 28px;
+  font-size: 14px;
+  color: var(--danger);
+}
+
+.error-summary strong {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Thank-you page                                                          */
+/* ---------------------------------------------------------------------- */
+
+.thanks-card {
+  text-align: left;
+  padding-top: 64px;
+}
+
+.thanks-icon {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 24px;
+}
+
+.thanks-card h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.thanks-card p {
+  color: var(--ink-soft);
+  font-size: 15.5px;
+  max-width: 48ch;
+  margin: 0 0 8px;
+}
+
+.thanks-card .back-link {
+  display: inline-block;
+  margin-top: 20px;
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  color: var(--brand);
+  text-decoration: none;
+  border-bottom: 1px solid var(--brand-tint);
+}
+
+.thanks-card .back-link:hover {
+  border-bottom-color: var(--brand);
+}
+
+@media (max-width: 420px) {
+  .shell {
+    padding: 32px 16px 80px;
+  }
+  .question {
+    padding: 16px;
+  }
+}
