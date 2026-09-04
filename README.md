@@ -1,59 +1,141 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# VNET Customer Satisfaction Survey
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A customer satisfaction survey web app built for **PT. Victory Network Indonesia (VNET)**, an ISP providing fiber internet services. Customers fill it out after installation to rate their experience with the technician and sales team, and leave open-ended feedback.
 
-## About Laravel
+Built with Laravel, Blade, and MySQL — no frontend framework, no build step required.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Structured survey covering two service touchpoints: **technician installation** and **sales/onboarding**
+- 1–5 star overall satisfaction rating
+- Open-ended feedback field for improvement suggestions
+- Optional respondent identification (name, phone/customer ID) for internal follow-up
+- Server-side validation with Indonesian-language error messages
+- Custom, brand-aligned UI — not a generic form template
+- Fully responsive, accessible (semantic grouping, visible focus states, `prefers-reduced-motion` support)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tech Stack
 
-## Learning Laravel
+| Layer      | Technology                          |
+|------------|--------------------------------------|
+| Backend    | Laravel (PHP)                        |
+| Templating | Blade                                |
+| Database   | SQLite                                |
+| Frontend   | Vanilla CSS + JS (no build tooling)  |
+| Fonts      | Space Grotesk, IBM Plex Sans, IBM Plex Mono |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Survey Structure
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Section | Topic              | Questions | Type                     |
+|---------|---------------------|-----------|--------------------------|
+| A       | Technician service   | 5         | Single-choice pills      |
+| B       | Sales service         | 4         | Single-choice pills      |
+| C       | Overall satisfaction  | 1         | 1–5 star rating          |
+| D       | Open feedback          | 1         | Free text (optional)     |
 
-## Laravel Sponsors
+Every response is stored in a single `survey_responses` table, one row per submission.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Getting Started
 
-### Premium Partners
+### Prerequisites
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- PHP 8.2+ with the `pdo_sqlite` extension enabled
+- Composer
 
-## Contributing
+### Installation
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+git clone <repo-url>
+cd customer-satisfaction-survey
+composer install
+cp .env.example .env
+php artisan key:generate
+```
 
-## Code of Conduct
+### Configure the database
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+The app uses SQLite — no separate database server needed. In `.env`:
 
-## Security Vulnerabilities
+```env
+DB_CONNECTION=sqlite
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Remove/comment out `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` if present;
+they're unused for SQLite. Laravel looks for the database file at `database/database.sqlite`
+by default. Make sure it exists:
+
+```bash
+touch database/database.sqlite   # macOS/Linux
+# or on Windows:
+New-Item database\database.sqlite -ItemType File
+```
+
+### Run migrations
+
+```bash
+php artisan migrate
+```
+
+### Serve the app
+
+```bash
+php artisan serve
+```
+
+Visit `http://127.0.0.1:8000/survey`.
+
+### Deployment notes
+
+Deployment itself is handled separately, but whoever sets up the server needs:
+
+- PHP with `pdo_sqlite` enabled
+- `database/database.sqlite` present and writable by the web server
+- `storage/` and `bootstrap/cache/` writable
+- `.env` on the server: `DB_CONNECTION=sqlite`, and `APP_URL` set to the real domain (not `localhost`)
+- Document root pointed at `public/`, not the project root
+
+Nothing in the app itself is hardcoded to `localhost` — all URLs and asset paths are generated
+via Laravel's `route()` and `asset()` helpers, so it works unchanged on any domain once `APP_URL`
+is set correctly.
+
+## Routes
+
+| Method | URI                     | Name             | Description                  |
+|--------|--------------------------|------------------|-------------------------------|
+| GET    | `/survey`                | `survey.create`  | Show the survey form           |
+| POST   | `/survey`                | `survey.store`   | Validate and store a response  |
+| GET    | `/survey/terima-kasih`  | `survey.thanks`  | Confirmation page after submit |
+
+## Project Structure
+
+```
+app/
+  Http/
+    Controllers/SurveyController.php
+    Requests/StoreSurveyResponseRequest.php
+  Models/SurveyResponse.php
+database/
+  database.sqlite
+  migrations/..._create_survey_responses_table.php
+resources/
+  views/
+    layouts/survey.blade.php
+    survey/index.blade.php
+    survey/thanks.blade.php
+public/
+  css/survey.css
+  js/survey.js
+  images/vnet-logo.png
+routes/
+  survey.php
+```
+
+## Roadmap
+
+- [ ] Admin view to browse and filter submitted responses
+- [ ] CSV/Excel export of results
+- [ ] Basic aggregate stats (average rating, response counts per option)
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Internal project for PT. Victory Network Indonesia. Not licensed for external redistribution.
