@@ -54,9 +54,17 @@
             <thead>
                 <tr>
                     <th scope="col">Tanggal</th>
-                    <th scope="col">Pelanggan</th>
-                    <th scope="col">Teknisi</th>
-                    <th scope="col">Sales</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">No. HP</th>
+                    <th scope="col">Teknisi (Jadwal)</th>
+                    <th scope="col">Teknisi (Instalasi)</th>
+                    <th scope="col">Teknisi (Penampilan)</th>
+                    <th scope="col">Teknisi (Panduan)</th>
+                    <th scope="col">Teknisi (Sikap)</th>
+                    <th scope="col">Sales (Penjelasan)</th>
+                    <th scope="col">Sales (Bantuan)</th>
+                    <th scope="col">Sales (Respons)</th>
+                    <th scope="col">Sales (Sikap)</th>
                     <th scope="col">Kepuasan</th>
                     <th scope="col">Saran</th>
                 </tr>
@@ -64,27 +72,31 @@
             <tbody>
                 @forelse ($responses as $response)
                     <tr>
-                        <td class="admin-date">{{ $response->created_at->format('d M Y') }}<br><span>{{ $response->created_at->format('H:i') }}</span></td>
-                        <td>
-                            <strong>{{ $response->nama ?: 'Anonim' }}</strong>
-                            @if ($response->no_hp)
-                                <span class="admin-muted">{{ $response->no_hp }}</span>
-                            @endif
+                        <td class="admin-date">
+                            {{ $response->created_at->format('d M Y') }}<br>
+                            <span>{{ $response->created_at->format('H:i') }}</span>
                         </td>
+                        <td><strong>{{ $response->nama ?: 'Anonim' }}</strong></td>
+                        <td><span class="admin-muted">{{ $response->no_hp ?: '—' }}</span></td>
+                        <td>{{ $choiceLabels['teknisi_jadwal'][$response->teknisi_jadwal] ?? '—' }}</td>
+                        <td>{{ $choiceLabels['teknisi_kualitas_instalasi'][$response->teknisi_kualitas_instalasi] ?? '—' }}</td>
+                        <td>{{ $choiceLabels['teknisi_penampilan'][$response->teknisi_penampilan] ?? '—' }}</td>
+                        <td>{{ $choiceLabels['teknisi_panduan'][$response->teknisi_panduan] ?? '—' }}</td>
+                        <td>{{ $choiceLabels['teknisi_sikap'][$response->teknisi_sikap] ?? '—' }}</td>
+                        <td>{{ $choiceLabels['sales_penjelasan'][$response->sales_penjelasan] ?? '—' }}</td>
+                        <td>{{ $choiceLabels['sales_bantuan'][$response->sales_bantuan] ?? '—' }}</td>
+                        <td>{{ $choiceLabels['sales_respons'][$response->sales_respons] ?? '—' }}</td>
+                        <td>{{ $choiceLabels['sales_sikap'][$response->sales_sikap] ?? '—' }}</td>
                         <td>
-                            <span class="admin-value">{{ $choiceLabels['teknisi_kualitas_instalasi'][$response->teknisi_kualitas_instalasi] }}</span>
-                            <span class="admin-muted">Sikap: {{ $choiceLabels['teknisi_sikap'][$response->teknisi_sikap] }}</span>
+                            <span class="admin-rating admin-rating-{{ $response->kepuasan_keseluruhan }}">
+                                {{ $response->kepuasan_keseluruhan }}/5
+                            </span>
                         </td>
-                        <td>
-                            <span class="admin-value">{{ $choiceLabels['sales_penjelasan'][$response->sales_penjelasan] }}</span>
-                            <span class="admin-muted">Respons: {{ $choiceLabels['sales_respons'][$response->sales_respons] }}</span>
-                        </td>
-                        <td><span class="admin-rating admin-rating-{{ $response->kepuasan_keseluruhan }}">{{ $response->kepuasan_keseluruhan }}/5</span></td>
                         <td class="admin-feedback">{{ $response->saran ?: '—' }}</td>
                     </tr>
                 @empty
                     <tr>
-                        <td class="admin-empty" colspan="6">Tidak ada respons yang cocok dengan filter ini.</td>
+                        <td class="admin-empty" colspan="14">Tidak ada respons yang cocok dengan filter ini.</td>
                     </tr>
                 @endforelse
             </tbody>
