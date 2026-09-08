@@ -275,11 +275,13 @@ body {
 }
 
 .admin-table th {
+  text-align: center;
   background: #f8f9fb;
   color: var(--ink-soft);
   font: 600 12px var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.02em;
+  border: 1px solid var(--border);
 }
 
 .admin-table tbody tr:last-child td {

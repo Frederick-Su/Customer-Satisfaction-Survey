@@ -52,22 +52,28 @@
     <div class="admin-table-wrap">
         <table class="admin-table">
             <thead>
-                <tr>
-                    <th scope="col">Tanggal</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">No. HP</th>
-                    <th scope="col">Teknisi (Jadwal)</th>
-                    <th scope="col">Teknisi (Instalasi)</th>
-                    <th scope="col">Teknisi (Penampilan)</th>
-                    <th scope="col">Teknisi (Panduan)</th>
-                    <th scope="col">Teknisi (Sikap)</th>
-                    <th scope="col">Sales (Penjelasan)</th>
-                    <th scope="col">Sales (Bantuan)</th>
-                    <th scope="col">Sales (Respons)</th>
-                    <th scope="col">Sales (Sikap)</th>
-                    <th scope="col">Kepuasan</th>
-                    <th scope="col">Saran</th>
-                </tr>
+            <tr>
+                <th scope="col" rowspan="2">Tanggal</th>
+                <th scope="col" rowspan="2">Nama</th>
+                <th scope="col" rowspan="2">No. HP</th>
+                <th scope="col" colspan="5">Teknisi</th>
+                <th scope="col" colspan="4">Sales</th>
+                <th scope="col" rowspan="2">Kepuasan</th>
+                <th scope="col" rowspan="2">Saran</th>
+            </tr>
+            <tr>
+                {{-- Teknisi Subcolumns --}}
+                <th scope="col">Jadwal</th>
+                <th scope="col">Instalasi</th>
+                <th scope="col">Penampilan</th>
+                <th scope="col">Panduan</th>
+                <th scope="col">Sikap</th>
+                {{-- Sales Subcolumns --}}
+                <th scope="col">Penjelasan</th>
+                <th scope="col">Bantuan</th>
+                <th scope="col">Respons</th>
+                <th scope="col">Sikap</th>
+            </tr>
             </thead>
             <tbody>
                 @forelse ($responses as $response)
