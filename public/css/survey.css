@@ -229,6 +229,24 @@ body {
   outline-offset: 2px;
 }
 
+/* Expand date input picker area to fill the whole box */
+.admin-filters input[type="date"] {
+  position: relative;
+  cursor: pointer;
+}
+
+.admin-filters input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
 .admin-button {
   min-height: 42px;
   border: 1px solid var(--brand);

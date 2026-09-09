@@ -54,8 +54,7 @@
             <thead>
             <tr>
                 <th scope="col" rowspan="2">Tanggal</th>
-                <th scope="col" rowspan="2">Nama</th>
-                <th scope="col" rowspan="2">No. HP</th>
+                <th scope="col" rowspan="2">Pelanggan</th>
                 <th scope="col" colspan="5">Teknisi</th>
                 <th scope="col" colspan="4">Sales</th>
                 <th scope="col" rowspan="2">Kepuasan</th>
@@ -82,8 +81,12 @@
                             {{ $response->created_at->format('d M Y') }}<br>
                             <span>{{ $response->created_at->format('H:i') }}</span>
                         </td>
-                        <td><strong>{{ $response->nama ?: 'Anonim' }}</strong></td>
-                        <td><span class="admin-muted">{{ $response->no_hp ?: '—' }}</span></td>
+                        <td>
+                            <strong>{{ $response->nama ?: 'Anonim' }}</strong>
+                            @if ($response->no_hp)
+                                <br><span class="admin-muted">{{ $response->no_hp ?: '—' }}</span>
+                            @endif
+                        </td>
                         <td>{{ $choiceLabels['teknisi_jadwal'][$response->teknisi_jadwal] ?? '—' }}</td>
                         <td>{{ $choiceLabels['teknisi_kualitas_instalasi'][$response->teknisi_kualitas_instalasi] ?? '—' }}</td>
                         <td>{{ $choiceLabels['teknisi_penampilan'][$response->teknisi_penampilan] ?? '—' }}</td>
@@ -102,7 +105,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td class="admin-empty" colspan="14">Tidak ada respons yang cocok dengan filter ini.</td>
+                        <td class="admin-empty" colspan="13">Tidak ada respons yang cocok dengan filter ini.</td>
                     </tr>
                 @endforelse
             </tbody>
