@@ -17,7 +17,7 @@ class AdminAuthController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'username' => ['required', 'string'],
             'password' => ['required', 'string'],
         ]);
 
@@ -28,8 +28,8 @@ class AdminAuthController extends Controller
         }
 
         return back()
-            ->withErrors(['email' => 'Email atau kata sandi tidak sesuai.'])
-            ->onlyInput('email');
+            ->withErrors(['username' => 'Nama pengguna atau kata sandi tidak sesuai.'])
+            ->onlyInput('username');
     }
 
     public function destroy(Request $request): RedirectResponse
