@@ -76,13 +76,25 @@ New-Item database\database.sqlite -ItemType File
 php artisan migrate
 ```
 
+### Create default admin user
+
+```bash
+php artisan db:seed
+```
+This creates a default user with the following credentials:
+```
+email: test@example.com
+password: password
+```
+
 ### Serve the app
 
 ```bash
 php artisan serve
 ```
 
-Visit `http://127.0.0.1:8000/survey`.
+Visit `http://127.0.0.1:8000/survey`.  
+To view responses, visit `http://127.0.0.1:8000/admin/login`.
 
 ### Deployment notes
 
