@@ -634,6 +634,12 @@ body {
   box-shadow: 0 0 0 3px var(--brand-tint);
 }
 
+.field input[readonly] {
+  background: var(--bg);
+  color: var(--ink-faint);
+  cursor: not-allowed;
+}
+
 /* ---------------------------------------------------------------------- */
 /* Star rating (Section C)                                                  */
 /* ---------------------------------------------------------------------- */

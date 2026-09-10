@@ -10,8 +10,7 @@ class SurveyResponse extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama',
-        'no_hp',
+        'customer_id',
         'teknisi_jadwal',
         'teknisi_kualitas_instalasi',
         'teknisi_penampilan',

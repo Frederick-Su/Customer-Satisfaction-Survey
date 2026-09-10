@@ -22,7 +22,7 @@
     <form class="admin-filters" method="GET" action="{{ route('admin.responses.index') }}">
         <div class="admin-filter-search">
             <label for="q">Cari respons</label>
-            <input id="q" name="q" type="search" value="{{ $filters['q'] ?? '' }}" placeholder="Nama, nomor HP, atau saran">
+            <input id="q" name="q" type="search" value="{{ $filters['q'] ?? '' }}" placeholder="ID pelanggan atau saran">
         </div>
         <div>
             <label for="rating">Kepuasan</label>
@@ -82,10 +82,7 @@
                             <span>{{ $response->created_at->format('H:i') }}</span>
                         </td>
                         <td>
-                            <strong>{{ $response->nama ?: 'Anonim' }}</strong>
-                            @if ($response->no_hp)
-                                <br><span class="admin-muted">{{ $response->no_hp ?: '—' }}</span>
-                            @endif
+                            <strong>{{ $response->customer_id ?: 'Anonim' }}</strong>
                         </td>
                         <td>{{ $choiceLabels['teknisi_jadwal'][$response->teknisi_jadwal] ?? '—' }}</td>
                         <td>{{ $choiceLabels['teknisi_kualitas_instalasi'][$response->teknisi_kualitas_instalasi] ?? '—' }}</td>

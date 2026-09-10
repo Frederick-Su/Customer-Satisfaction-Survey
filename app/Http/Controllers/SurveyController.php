@@ -12,9 +12,11 @@ class SurveyController extends Controller
     /**
      * Show the survey form.
      */
-    public function create(): View
+    public function create(?string $customerId = null): View
     {
-        return view('survey.index');
+        return view('survey.index', [
+            'customerId' => $customerId,
+        ]);
     }
 
     /**

@@ -96,17 +96,13 @@
             <div class="section-head">
                 <div>
                     <h2 style="margin-top:0">Identitas</h2>
-                    <p>Opsional — hanya digunakan jika kami perlu menindaklanjuti masukan Anda.</p>
+                    <p>ID pelanggan Anda terisi otomatis dari tautan survei ini.</p>
                 </div>
             </div>
 
             <div class="field">
-                <label for="nama">Nama <span class="hint">(opsional)</span></label>
-                <input type="text" name="nama" id="nama" value="{{ old('nama') }}" placeholder="Nama Anda">
-            </div>
-            <div class="field">
-                <label for="no_hp">Nomor HP / ID Pelanggan <span class="hint">(opsional)</span></label>
-                <input type="tel" name="no_hp" id="no_hp" value="{{ old('no_hp') }}" placeholder="08xxxxxxxxxx">
+                <label for="customer_id">ID Pelanggan</label>
+                <input type="text" name="customer_id" id="customer_id" value="{{ $customerId ?? old('customer_id') }}" placeholder="Tidak terdeteksi" readonly>
             </div>
         </div>
 

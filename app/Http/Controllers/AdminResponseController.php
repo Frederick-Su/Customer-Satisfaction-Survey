@@ -23,8 +23,7 @@ class AdminResponseController extends Controller
         $responses = SurveyResponse::query()
             ->when($filters['q'] ?? null, function ($query, string $search): void {
                 $query->where(function ($query) use ($search): void {
-                    $query->where('nama', 'like', "%{$search}%")
-                        ->orWhere('no_hp', 'like', "%{$search}%")
+                    $query->where('customer_id', 'like', "%{$search}%")
                         ->orWhere('saran', 'like', "%{$search}%");
                 });
             })

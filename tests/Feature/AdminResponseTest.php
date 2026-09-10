@@ -22,19 +22,19 @@ class AdminResponseTest extends TestCase
         $user = User::factory()->create();
 
         SurveyResponse::factory()->create([
-            'nama' => 'Sari',
+            'customer_id' => 'CUST-000001',
             'kepuasan_keseluruhan' => 5,
         ]);
         SurveyResponse::factory()->create([
-            'nama' => 'Budi',
+            'customer_id' => 'CUST-000002',
             'kepuasan_keseluruhan' => 2,
         ]);
 
         $this->actingAs($user)
             ->get(route('admin.responses.index', ['rating' => 5]))
             ->assertOk()
-            ->assertSee('Sari')
-            ->assertDontSee('Budi')
+            ->assertSee('CUST-000001')
+            ->assertDontSee('CUST-000002')
             ->assertSee('1')
             ->assertSee('respons ditemukan');
     }

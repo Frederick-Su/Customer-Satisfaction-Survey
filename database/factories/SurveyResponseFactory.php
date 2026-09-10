@@ -15,8 +15,7 @@ class SurveyResponseFactory extends Factory
     public function definition(): array
     {
         return [
-            'nama' => fake()->optional()->name(),
-            'no_hp' => fake()->optional()->numerify('08##########'),
+            'customer_id' => fake()->optional()->numerify('CUST-######'),
             'teknisi_jadwal' => fake()->randomElement(['ya', 'tidak']),
             'teknisi_kualitas_instalasi' => fake()->randomElement(['baik', 'cukup', 'kurang_baik']),
             'teknisi_penampilan' => fake()->randomElement(['ya', 'tidak']),

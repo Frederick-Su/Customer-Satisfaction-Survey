@@ -17,8 +17,7 @@ class StoreSurveyResponseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama' => ['nullable', 'string', 'max:100'],
-            'no_hp' => ['nullable', 'string', 'max:20'],
+            'customer_id' => ['nullable', 'string', 'max:100', 'regex:/^[A-Za-z0-9._-]+$/'],
 
             'teknisi_jadwal' => ['required', 'in:ya,tidak'],
             'teknisi_kualitas_instalasi' => ['required', 'in:baik,cukup,kurang_baik'],
@@ -43,6 +42,7 @@ class StoreSurveyResponseRequest extends FormRequest
     public function attributes(): array
     {
         return [
+            'customer_id' => 'ID pelanggan',
             'teknisi_jadwal' => 'jadwal kedatangan teknisi',
             'teknisi_kualitas_instalasi' => 'kualitas instalasi',
             'teknisi_penampilan' => 'penampilan teknisi',
@@ -64,6 +64,7 @@ class StoreSurveyResponseRequest extends FormRequest
             'in' => 'Pilihan pada :attribute tidak valid.',
             'between' => ':attribute harus antara :min sampai :max.',
             'max' => ':attribute maksimal :max karakter.',
+            'regex' => ':attribute mengandung karakter yang tidak valid.',
         ];
     }
 }
