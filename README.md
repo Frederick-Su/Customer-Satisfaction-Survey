@@ -83,7 +83,7 @@ php artisan db:seed
 ```
 This creates a default user with the following credentials:
 ```
-email: test@example.com
+username: admin
 password: password
 ```
 
