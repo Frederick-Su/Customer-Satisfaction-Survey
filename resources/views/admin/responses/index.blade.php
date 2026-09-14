@@ -19,6 +19,48 @@
         </div>
     </header>
 
+    <!-- Summary Metrics Bar -->
+    <div class="admin-summary-grid">
+        <div class="summary-card">
+            <span class="summary-label">Total Respons</span>
+            <span class="summary-value">{{ number_format($totalRows, 0, ',', '.') }}</span>
+        </div>
+        <div class="summary-card">
+            <span class="summary-label">Pelanggan Unik</span>
+            <span class="summary-value">{{ number_format($uniqueCustomers, 0, ',', '.') }}</span>
+        </div>
+        <div class="summary-card">
+            <span class="summary-label">Kepuasan Rata-rata</span>
+            <span class="summary-value">{{ number_format($meanKepuasan ?? 0, 2) }} / 5.00</span>
+        </div>
+    </div>
+
+    <div class="admin-summary-modes">
+        <div class="summary-mode-group">
+            <span class="summary-group-title">Modus Teknisi</span>
+            <div class="summary-mode-items">
+                @foreach ($teknisiColumns as $col)
+                    <div>
+                        <span class="summary-mode-key">{{ Str::of($col)->after('teknisi_')->replace('_', ' ')->title() }}:</span>
+                        <span class="summary-mode-val">{{ $choiceLabels[$col][$modes[$col]] ?? '—' }}</span>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <div class="summary-mode-group">
+            <span class="summary-group-title">Modus Sales</span>
+            <div class="summary-mode-items">
+                @foreach ($salesColumns as $col)
+                    <div>
+                        <span class="summary-mode-key">{{ Str::of($col)->after('sales_')->replace('_', ' ')->title() }}:</span>
+                        <span class="summary-mode-val">{{ $choiceLabels[$col][$modes[$col]] ?? '—' }}</span>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
     <form class="admin-filters" method="GET" action="{{ route('admin.responses.index') }}">
         <div class="admin-filter-search">
             <label for="q">Cari respons</label>
@@ -41,7 +83,7 @@
             <label for="to">Sampai tanggal</label>
             <input id="to" name="to" type="date" value="{{ $filters['to'] ?? '' }}">
         </div>
-        <button type="submit" class="admin-button">Terapkan</button>
+        <button type="submit" class="admin-button">Filter</button>
         <a class="admin-reset" href="{{ route('admin.responses.index') }}">Reset</a>
     </form>
 
