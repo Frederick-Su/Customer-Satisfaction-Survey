@@ -31,7 +31,7 @@
         </div>
         <div class="summary-card">
             <span class="summary-label">Kepuasan Rata-rata</span>
-            <span class="summary-value">{{ number_format($meanKepuasan ?? 0, 2) }} / 5.00</span>
+            <span class="summary-value {{ ($meanKepuasan ?? 0) <= 2.00 ? 'is-danger' : '' }}">{{ number_format($meanKepuasan ?? 0, 2) }} / 5.00</span>
         </div>
     </div>
 
@@ -136,7 +136,7 @@
                         <td>{{ $choiceLabels['sales_respons'][$response->sales_respons] ?? '—' }}</td>
                         <td>{{ $choiceLabels['sales_sikap'][$response->sales_sikap] ?? '—' }}</td>
                         <td>
-                            <span class="admin-rating admin-rating-{{ $response->kepuasan_keseluruhan }}">
+                            <span class="admin-rating {{ $response->kepuasan_keseluruhan <= 2 ? 'is-danger' : '' }}">
                                 {{ $response->kepuasan_keseluruhan }}/5
                             </span>
                         </td>

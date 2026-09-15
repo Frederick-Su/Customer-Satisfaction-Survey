@@ -54,7 +54,53 @@ body {
 }
 
 /* ---------------------------------------------------------------------- */
-/* Progress bar — one deliberate motion cue, fills like a signal charging */
+/* Shared Components & Card Containers                                     */
+/* ---------------------------------------------------------------------- */
+
+.summary-card,
+.summary-mode-group,
+.admin-filters,
+.admin-table-wrap,
+.admin-login-box,
+.question,
+.error-summary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+/* Common Text Links */
+.admin-link,
+.admin-reset,
+.thanks-card .back-link {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Base Form Inputs */
+.admin-filters input,
+.admin-filters select,
+.field input[type="text"],
+.field input[type="tel"],
+.field textarea {
+  width: 100%;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+
+.admin-summary-grid .summary-card:nth-child(3) .summary-value.is-danger,
+.admin-rating.is-danger {
+  background: var(--danger-tint);
+  color: var(--danger);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Progress bar — signal charging motion                                  */
 /* ---------------------------------------------------------------------- */
 
 .progress-rail {
@@ -81,7 +127,7 @@ body {
 }
 
 /* ---------------------------------------------------------------------- */
-/* Shell / layout                                                          */
+/* Layout Shells                                                          */
 /* ---------------------------------------------------------------------- */
 
 .shell {
@@ -90,15 +136,15 @@ body {
   padding: 48px 20px 96px;
 }
 
-/* ---------------------------------------------------------------------- */
-/* Admin response browser                                                  */
-/* ---------------------------------------------------------------------- */
-
 .admin-shell {
   max-width: 1440px;
   margin: 0 auto;
   padding: 48px 28px 80px;
 }
+
+/* ---------------------------------------------------------------------- */
+/* Admin Response Browser                                                  */
+/* ---------------------------------------------------------------------- */
 
 .admin-header {
   display: flex;
@@ -118,13 +164,6 @@ body {
 .admin-header p {
   color: var(--ink-soft);
   margin: 0;
-}
-
-.admin-link,
-.admin-reset {
-  color: var(--brand);
-  font-weight: 600;
-  text-decoration: none;
 }
 
 .admin-header-actions {
@@ -151,10 +190,6 @@ body {
 .admin-login-box {
   width: min(100%, 440px);
   padding: 36px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
 }
 
 .admin-login-box h1 {
@@ -182,6 +217,10 @@ body {
   width: 100%;
 }
 
+/* ---------------------------------------------------------------------- */
+/* Admin Metrics & Summary Bar                                            */
+/* ---------------------------------------------------------------------- */
+
 .admin-summary-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -189,22 +228,39 @@ body {
   margin-bottom: 16px;
 }
 
-.summary-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  box-shadow: var(--shadow-card);
+.admin-summary-modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
 }
 
-.summary-label {
+.summary-card {
+  padding: 16px;
+}
+
+.summary-mode-group {
+  padding: 14px 18px;
+}
+
+.summary-label,
+.summary-group-title {
   display: block;
   font-size: 12px;
   font-weight: 600;
-  color: var(--ink-soft);
   text-transform: uppercase;
   letter-spacing: 0.02em;
   margin-bottom: 4px;
+}
+
+.summary-label {
+  color: var(--ink-soft);
+}
+
+.summary-group-title {
+  font-family: var(--font-mono);
+  color: var(--brand);
+  margin-bottom: 8px;
 }
 
 .summary-value {
@@ -215,29 +271,12 @@ body {
   color: var(--brand);
 }
 
-.admin-summary-modes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 14px;
-  margin-bottom: 20px;
-}
-
-.summary-mode-group {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
-  box-shadow: var(--shadow-card);
-}
-
-.summary-group-title {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--brand);
-  text-transform: uppercase;
-  margin-bottom: 8px;
+.admin-summary-grid .summary-card:nth-child(3) .summary-value {
+  display: inline-block;
+  padding: 0px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-tint);
+  color: #7b4a0e;
 }
 
 .summary-mode-items {
@@ -257,16 +296,16 @@ body {
   margin-left: 4px;
 }
 
+/* ---------------------------------------------------------------------- */
+/* Admin Filters                                                           */
+/* ---------------------------------------------------------------------- */
+
 .admin-filters {
   display: flex;
   align-items: flex-end;
   flex-wrap: wrap;
   gap: 14px;
   padding: 18px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
   margin-bottom: 20px;
 }
 
@@ -288,13 +327,7 @@ body {
 
 .admin-filters input,
 .admin-filters select {
-  width: 100%;
   min-height: 42px;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  color: var(--ink);
-  font: inherit;
   padding: 8px 11px;
 }
 
@@ -304,7 +337,6 @@ body {
   outline-offset: 2px;
 }
 
-/* Expand date input picker area to fill the whole box */
 .admin-filters input[type="date"] {
   position: relative;
   cursor: pointer;
@@ -344,12 +376,12 @@ body {
   margin: 0 0 10px;
 }
 
+/* ---------------------------------------------------------------------- */
+/* Admin Data Table                                                       */
+/* ---------------------------------------------------------------------- */
+
 .admin-table-wrap {
   overflow-x: auto;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
 }
 
 .admin-table {
@@ -415,12 +447,6 @@ body {
   white-space: nowrap;
 }
 
-.admin-rating-1,
-.admin-rating-2 {
-  background: var(--danger-tint);
-  color: var(--danger);
-}
-
 .admin-feedback {
   max-width: 300px;
   color: var(--ink-soft);
@@ -436,30 +462,8 @@ body {
   margin-top: 20px;
 }
 
-@media (max-width: 640px) {
-  .admin-shell {
-    padding: 32px 16px 56px;
-  }
-
-  .admin-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .admin-header-actions {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .admin-filters > div,
-  .admin-button,
-  .admin-reset {
-    width: 100%;
-  }
-}
-
 /* ---------------------------------------------------------------------- */
-/* Header                                                                  */
+/* Public Header & Pulse Divider                                           */
 /* ---------------------------------------------------------------------- */
 
 .brandmark {
@@ -500,7 +504,6 @@ body {
   color: var(--ink-faint);
 }
 
-/* Fiber pulse divider — the one animated moment on the page */
 .pulse-divider {
   position: relative;
   height: 2px;
@@ -537,7 +540,7 @@ body {
 }
 
 /* ---------------------------------------------------------------------- */
-/* Sections                                                                 */
+/* Survey Questions & Inputs                                               */
 /* ---------------------------------------------------------------------- */
 
 .section {
@@ -579,14 +582,7 @@ body {
   margin: 0;
 }
 
-/* ---------------------------------------------------------------------- */
-/* Question groups                                                         */
-/* ---------------------------------------------------------------------- */
-
 .question {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
   padding: 18px 20px;
   margin-bottom: 12px;
   transition: border-color 120ms ease;
@@ -614,7 +610,6 @@ body {
   margin-top: 10px;
 }
 
-/* Pill-style choice buttons, built on native radios for accessibility */
 .pill-group {
   display: flex;
   flex-wrap: wrap;
@@ -659,10 +654,6 @@ body {
   outline-offset: 2px;
 }
 
-/* ---------------------------------------------------------------------- */
-/* Text inputs / textarea                                                  */
-/* ---------------------------------------------------------------------- */
-
 .field {
   margin-bottom: 16px;
 }
@@ -685,13 +676,7 @@ body {
 .field input[type="text"],
 .field input[type="tel"],
 .field textarea {
-  width: 100%;
-  font-family: var(--font-body);
   font-size: 15px;
-  color: var(--ink);
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
   padding: 11px 14px;
   transition: border-color 120ms ease, box-shadow 120ms ease;
 }
@@ -699,7 +684,6 @@ body {
 .field textarea {
   min-height: 110px;
   resize: vertical;
-  font-family: var(--font-body);
 }
 
 .field input:focus-visible,
@@ -715,10 +699,7 @@ body {
   cursor: not-allowed;
 }
 
-/* ---------------------------------------------------------------------- */
-/* Star rating (Section C)                                                  */
-/* ---------------------------------------------------------------------- */
-
+/* Star Rating */
 .star-rating {
   display: flex;
   flex-direction: row-reverse;
@@ -772,7 +753,7 @@ body {
 }
 
 /* ---------------------------------------------------------------------- */
-/* Submit                                                                   */
+/* Buttons, Errors & Messages                                             */
 /* ---------------------------------------------------------------------- */
 
 .submit-row {
@@ -808,14 +789,9 @@ button.submit:active {
   margin-top: 12px;
 }
 
-/* ---------------------------------------------------------------------- */
-/* Global error summary                                                    */
-/* ---------------------------------------------------------------------- */
-
 .error-summary {
   background: var(--danger-tint);
-  border: 1px solid var(--danger);
-  border-radius: var(--radius-md);
+  border-color: var(--danger);
   padding: 14px 18px;
   margin-bottom: 28px;
   font-size: 14px;
@@ -830,7 +806,7 @@ button.submit:active {
 }
 
 /* ---------------------------------------------------------------------- */
-/* Thank-you page                                                          */
+/* Thank-you Page                                                          */
 /* ---------------------------------------------------------------------- */
 
 .thanks-card {
@@ -863,8 +839,6 @@ button.submit:active {
   margin-top: 20px;
   font-family: var(--font-mono);
   font-size: 13.5px;
-  color: var(--brand);
-  text-decoration: none;
   border-bottom: 1px solid var(--brand-tint);
 }
 
@@ -872,10 +846,37 @@ button.submit:active {
   border-bottom-color: var(--brand);
 }
 
+/* ---------------------------------------------------------------------- */
+/* Responsive Breakpoints                                                 */
+/* ---------------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .admin-shell {
+    padding: 32px 16px 56px;
+  }
+
+  .admin-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .admin-filters > div,
+  .admin-button,
+  .admin-reset {
+    width: 100%;
+  }
+}
+
 @media (max-width: 420px) {
   .shell {
     padding: 32px 16px 80px;
   }
+  
   .question {
     padding: 16px;
   }
