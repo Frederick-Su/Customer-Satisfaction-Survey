@@ -21,9 +21,12 @@
 
   --accent: #e8a33d;
   --accent-tint: #fbebd1;
+  --rating-tint: #7b4a0e;
 
   --danger: #b8452f;
   --danger-tint: #fbeae6;
+
+  --th-bg: #f8f9fb;
 
   --radius-sm: 3px;
   --radius-md: 6px;
@@ -35,12 +38,42 @@
   --shadow-card: 0 1px 2px rgba(16, 25, 43, 0.04), 0 8px 24px rgba(16, 25, 43, 0.04);
 }
 
+/* Dark Mode Theme */
+.dark,
+html[data-theme="dark"] {
+  --ink: #ededec;
+  --ink-soft: #a6adb8;
+  --ink-faint: #6d7684;
+
+  --bg: #0a0a0a;
+  --surface: #1a1a1a;
+
+  --border: #2d2d2b;
+  --border-strong: #3d3d3a;
+
+  --brand: #4e88d8;
+  --brand-ink: #3870b0;
+  --brand-tint: #0d1f3f;
+
+  --accent: #f5b844;
+  --accent-tint: #3c2905;
+  --rating-tint: #e88e21;
+
+  --danger: #ff6b5b;
+  --danger-tint: #3d1810;
+
+  --th-bg: #101010;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
 * {
   box-sizing: border-box;
 }
 
 html {
   -webkit-text-size-adjust: 100%;
+  transition: opacity 150ms ease-in-out;
 }
 
 body {
@@ -83,7 +116,7 @@ body {
 .admin-filters input,
 .admin-filters select,
 .field input[type="text"],
-.field input[type="tel"],
+.field input[type="password"],
 .field textarea {
   width: 100%;
   border: 1px solid var(--border-strong);
@@ -276,7 +309,7 @@ body {
   padding: 0px 6px;
   border-radius: var(--radius-sm);
   background: var(--accent-tint);
-  color: #7b4a0e;
+  color: var(--rating-tint);
 }
 
 .summary-mode-items {
@@ -401,7 +434,7 @@ body {
 
 .admin-table th {
   text-align: center;
-  background: #f8f9fb;
+  background: var(--th-bg);
   color: var(--ink-soft);
   font: 600 12px var(--font-mono);
   text-transform: uppercase;
@@ -441,7 +474,7 @@ body {
   padding: 4px 8px;
   border-radius: var(--radius-sm);
   background: var(--accent-tint);
-  color: #7b4a0e;
+  color: var(--rating-tint);
   font-family: var(--font-mono);
   font-size: 13px;
   white-space: nowrap;
@@ -674,7 +707,7 @@ body {
 }
 
 .field input[type="text"],
-.field input[type="tel"],
+.field input[type="password"],
 .field textarea {
   font-size: 15px;
   padding: 11px 14px;
@@ -880,4 +913,62 @@ button.submit:active {
   .question {
     padding: 16px;
   }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Dark Mode Toggle Button                                                */
+/* ---------------------------------------------------------------------- */
+
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 200ms ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.dark .theme-toggle {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.theme-toggle:hover {
+  border-color: var(--brand);
+  transform: scale(1.05);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2;
+}
+
+.theme-toggle .sun-icon {
+  display: block;
+}
+
+.theme-toggle .moon-icon {
+  display: none;
+}
+
+.dark .theme-toggle .sun-icon {
+  display: none;
+}
+
+.dark .theme-toggle .moon-icon {
+  display: block;
 }
