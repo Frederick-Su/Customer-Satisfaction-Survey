@@ -209,8 +209,12 @@ body {
   border: 0;
   background: transparent;
   cursor: pointer;
-  font: 600 14px var(--font-body);
   padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  color: var(--brand);
+  line-height: inherit;
 }
 
 .admin-login-shell {
@@ -492,7 +496,67 @@ body {
 }
 
 .admin-pagination {
-  margin-top: 20px;
+  margin-top: 24px;
+}
+
+.admin-pagination nav > div:first-child {
+  display: none;
+}
+
+.admin-pagination nav > div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.admin-pagination nav > div:last-child > div:first-child p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+.admin-pagination nav > div:last-child > div:last-child span {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.admin-pagination svg {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+
+.admin-pagination .flex {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-pagination a,
+.admin-pagination span.inline-flex {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.admin-pagination a:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.admin-pagination span[aria-current="page"] > span {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
 }
 
 /* ---------------------------------------------------------------------- */

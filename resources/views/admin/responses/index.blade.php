@@ -14,7 +14,7 @@
             <a class="admin-link" href="{{ route('survey.create') }}">Lihat survei</a>
             <form method="POST" action="{{ route('admin.logout') }}">
                 @csrf
-                <button type="submit" class="admin-link admin-link-button">Keluar</button>
+                <button type="submit" class="admin-link admin-link-button">Log out</button>
             </form>
         </div>
     </header>
