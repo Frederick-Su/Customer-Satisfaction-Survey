@@ -6,6 +6,8 @@ use App\Models\SurveyResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
+use App\Exports\SurveyResponsesExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminResponseController extends Controller
 {
@@ -63,5 +65,17 @@ class AdminResponseController extends Controller
             'salesColumns' => $salesColumns,
             'modes' => $modes,
         ]);
+    }
+
+    public function exportCsv(Request $request)
+    {
+        $fileName = 'survey_responses_' . now()->format('d-m-Y_His') . '.csv';
+        return Excel::download(new SurveyResponsesExport($request, SurveyResponse::choiceLabels()), $fileName, \Maatwebsite\Excel\Excel::CSV);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $fileName = 'survey_responses_' . now()->format('d-m-Y_His') . '.xlsx';
+        return Excel::download(new SurveyResponsesExport($request, SurveyResponse::choiceLabels()), $fileName, \Maatwebsite\Excel\Excel::XLSX);
     }
 }

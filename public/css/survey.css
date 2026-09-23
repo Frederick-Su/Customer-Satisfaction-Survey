@@ -391,6 +391,11 @@ body {
   cursor: pointer;
 }
 
+.admin-filters .admin-filter-export {
+  min-width: auto;
+  flex: 0 0 auto;
+}
+
 .admin-button {
   min-height: 42px;
   border: 1px solid var(--brand);
@@ -405,6 +410,20 @@ body {
 .admin-reset {
   padding: 10px 4px;
   font-size: 14px;
+}
+
+.admin-button-secondary {
+  background: var(--surface);
+  color: var(--brand);
+  border: 1px solid var(--brand);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-button-secondary:hover {
+  background: var(--brand-tint);
 }
 
 .admin-summary {

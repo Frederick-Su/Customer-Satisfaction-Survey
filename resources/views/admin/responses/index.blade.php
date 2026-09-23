@@ -37,7 +37,7 @@
 
     <div class="admin-summary-modes">
         <div class="summary-mode-group">
-            <span class="summary-group-title">Modus Teknisi</span>
+            <span class="summary-group-title">Respon Paling Banyak Kategori Teknisi</span>
             <div class="summary-mode-items">
                 @foreach ($teknisiColumns as $col)
                     <div>
@@ -49,7 +49,7 @@
         </div>
 
         <div class="summary-mode-group">
-            <span class="summary-group-title">Modus Sales</span>
+            <span class="summary-group-title">Respon Paling Banyak Kategori Sales</span>
             <div class="summary-mode-items">
                 @foreach ($salesColumns as $col)
                     <div>
@@ -85,6 +85,13 @@
         </div>
         <button type="submit" class="admin-button">Filter</button>
         <a class="admin-reset" href="{{ route('admin.responses.index') }}">Reset</a>
+        <div class="admin-filter-export">
+            <label class="export-label">Export hasil filter</label>
+            <div class="export-buttons">
+                <a href="{{ route('admin.responses.export.csv', request()->query()) }}" class="admin-button admin-button-secondary">CSV</a>
+                <a href="{{ route('admin.responses.export.excel', request()->query()) }}" class="admin-button admin-button-secondary">Excel</a>
+            </div>
+        </div>
     </form>
 
     <div class="admin-summary">

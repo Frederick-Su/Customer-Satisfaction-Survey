@@ -11,6 +11,8 @@ Route::post('/admin/login', [AdminAuthController::class, 'store'])->name('admin.
 
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/responses', [AdminResponseController::class, 'index'])->name('responses.index');
+    Route::get('/responses/export/csv', [AdminResponseController::class, 'exportCsv'])->name('responses.export.csv');
+    Route::get('/responses/export/excel', [AdminResponseController::class, 'exportExcel'])->name('responses.export.excel');
     Route::post('/logout', [AdminAuthController::class, 'destroy'])->name('logout');
 });
 
