@@ -36,29 +36,19 @@
     </div>
 
     <div class="admin-summary-modes">
-        <div class="summary-mode-group">
-            <span class="summary-group-title">Respon Paling Banyak Kategori Teknisi</span>
-            <div class="summary-mode-items">
-                @foreach ($teknisiColumns as $col)
-                    <div>
-                        <span class="summary-mode-key">{{ Str::of($col)->after('teknisi_')->replace('_', ' ')->title() }}:</span>
-                        <span class="summary-mode-val">{{ $choiceLabels[$col][$modes[$col]] ?? '—' }}</span>
-                    </div>
-                @endforeach
-            </div>
-        </div>
+        @include('admin.responses.summary-group', [
+            'key' => 'teknisi',
+            'title' => 'Respon Terbanyak Kategori Teknisi',
+            'columns' => $teknisiColumns,
+            'columnStats' => $columnStats,
+        ])
 
-        <div class="summary-mode-group">
-            <span class="summary-group-title">Respon Paling Banyak Kategori Sales</span>
-            <div class="summary-mode-items">
-                @foreach ($salesColumns as $col)
-                    <div>
-                        <span class="summary-mode-key">{{ Str::of($col)->after('sales_')->replace('_', ' ')->title() }}:</span>
-                        <span class="summary-mode-val">{{ $choiceLabels[$col][$modes[$col]] ?? '—' }}</span>
-                    </div>
-                @endforeach
-            </div>
-        </div>
+        @include('admin.responses.summary-group', [
+            'key' => 'sales',
+            'title' => 'Respon Terbanyak Kategori Sales',
+            'columns' => $salesColumns,
+            'columnStats' => $columnStats,
+        ])
     </div>
 
     <form class="admin-filters" method="GET" action="{{ route('admin.responses.index') }}">
@@ -165,3 +155,33 @@
     @endif
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    // Expand / collapse the Teknisi + Sales summary cards.
+    // The open state is remembered, because applying a filter reloads the page.
+    document.querySelectorAll('[data-summary-group]').forEach(function (group) {
+        var button = group.querySelector('[data-summary-toggle]');
+        var compact = group.querySelector('[data-summary-compact]');
+        var detail = group.querySelector('[data-summary-detail]');
+        var storageKey = 'summary-expanded:' + group.dataset.summaryGroup;
+
+        function setExpanded(expanded) {
+            button.setAttribute('aria-expanded', String(expanded));
+            group.classList.toggle('is-expanded', expanded);
+            compact.hidden = expanded;
+            detail.hidden = !expanded;
+        }
+
+        button.addEventListener('click', function () {
+            var expanded = button.getAttribute('aria-expanded') !== 'true';
+            setExpanded(expanded);
+            try { localStorage.setItem(storageKey, expanded ? '1' : '0'); } catch (e) {}
+        });
+
+        try {
+            if (localStorage.getItem(storageKey) === '1') setExpanded(true);
+        } catch (e) {}
+    });
+</script>
+@endpush

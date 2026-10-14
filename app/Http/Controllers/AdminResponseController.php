@@ -40,16 +40,49 @@ class AdminResponseController extends Controller
         $teknisiColumns = ['teknisi_jadwal', 'teknisi_kualitas_instalasi', 'teknisi_penampilan', 'teknisi_panduan', 'teknisi_sikap'];
         $salesColumns = ['sales_penjelasan', 'sales_bantuan', 'sales_respons', 'sales_sikap'];
 
-        $modes = [];
-        foreach (array_merge($teknisiColumns, $salesColumns) as $column) {
-            $topValue = (clone $responses)
-                ->select($column, DB::raw('COUNT(*) as total_count'))
-                ->whereNotNull($column)
-                ->groupBy($column)
-                ->orderByDesc('total_count')
-                ->first();
+        // Per-column distribution: count + percentage for every possible choice,
+        // plus which choice is the most common ("top").
+        $choiceLabels = SurveyResponse::choiceLabels();
+        $columnStats = [];
 
-            $modes[$column] = $topValue ? $topValue->$column : null;
+        foreach (array_merge($teknisiColumns, $salesColumns) as $column) {
+            $counts = (clone $responses)
+                ->whereNotNull($column)
+                ->select($column, DB::raw('COUNT(*) as total_count'))
+                ->groupBy($column)
+                ->pluck('total_count', $column);
+
+            // Walk the defined choices (not just the ones present in the data)
+            // so options with zero responses still show up in the detailed view.
+            $breakdown = [];
+            foreach ($choiceLabels[$column] as $value => $label) {
+                $breakdown[$value] = [
+                    'label' => $label,
+                    'count' => (int) ($counts[$value] ?? 0),
+                    'percent' => 0.0,
+                ];
+            }
+
+            $total = array_sum(array_column($breakdown, 'count'));
+            $top = null;
+            $topCount = 0;
+
+            foreach ($breakdown as $value => &$row) {
+                $row['percent'] = $total > 0 ? round($row['count'] / $total * 100, 1) : 0.0;
+
+                // Strict ">" keeps the first choice on a tie, so the result is stable.
+                if ($row['count'] > $topCount) {
+                    $topCount = $row['count'];
+                    $top = $value;
+                }
+            }
+            unset($row);
+
+            $columnStats[$column] = [
+                'total' => $total,
+                'top' => $top,
+                'breakdown' => $breakdown,
+            ];
         }
 
         $responses = (clone $responses)->latest()->paginate(15)->withQueryString();
@@ -57,13 +90,13 @@ class AdminResponseController extends Controller
         return view('admin.responses.index', [
             'responses' => $responses,
             'filters' => $filters,
-            'choiceLabels' => SurveyResponse::choiceLabels(),
+            'choiceLabels' => $choiceLabels,
             'totalRows' => $totalRows,
             'uniqueCustomers' => $uniqueCustomers,
             'meanKepuasan' => $meanKepuasan,
             'teknisiColumns' => $teknisiColumns,
             'salesColumns' => $salesColumns,
-            'modes' => $modes,
+            'columnStats' => $columnStats,
         ]);
     }
 
